@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake Game Arcade</title>
+    <meta
+      name="description"
+      content="Play the neon-themed Snake game in fullscreen or browser view!"
+    />
+    <style>
+      :root {
+        --bg-color: #0d0c1d;
+        --snake-color: #39ff14;
+        --food-color: #ff007f;
+        --canvas-bg: #1f1b24;
+        --text-color: #ffffff;
+        --button-bg: #00bfff;
+        --button-hover: #0080ff;
+        --glass-bg: rgba(255, 255, 255, 0.05);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        min-height: 100vh;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+        color: var(--snake-color);
+        text-shadow: 0 0 10px var(--snake-color);
+      }
+
+      .game-container {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        padding: 30px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        max-width: 700px;
+      }
+
+      canvas {
+        border: 2px solid var(--snake-color);
+        background-color: var(--canvas-bg);
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+      }
+
+      .score-display {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--text-color);
+      }
+
+      .controls {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      button {
+        padding: 12px 24px;
+        font-size: 1rem;
+        font-weight: bold;
+        background-color: var(--button-bg);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 191, 255, 0.4);
+      }
+
+      button:hover {
+        background-color: var(--button-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 128, 255, 0.5);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .instructions {
+        background-color: var(--glass-bg);
+        padding: 15px;
+        border-radius: 10px;
+        max-width: 500px;
+        color: #ccc;
+      }
+
+      @media (max-width: 768px) {
+        canvas {
+          width: 100%;
+          height: auto;
+          max-width: 400px;
+        }
+
+        .game-container {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="game-container">
+      <h1>Snake Game</h1>
+
+      <canvas
+        id="gameCanvas"
+        width="600"
+        height="600"
+        aria-label="Snake game canvas"
+      ></canvas>
+
+      <div class="score-display">Score: <span id="score">0</span></div>
+
+      <div class="controls">
+        <button id="startBtn" aria-label="Start the game">Start Game</button>
+        <button id="resetBtn" aria-label="Reset the game">Reset Game</button>
+        <button id="fullscreenBtn" aria-label="Toggle fullscreen mode">
+          Fullscreen
+        </button>
+      </div>
+
+      <div class="instructions">
+        <p>
+          Use <strong>arrow keys</strong> to control the snake and eat food to
+          grow.
+        </p>
+        <p>
+          Press <strong>spacebar</strong> to start/reset. Avoid crashing into
+          walls or yourself.
+        </p>
+      </div>
+    </main>
+
+    <script>
+      document.getElementById("fullscreenBtn").addEventListener("click", () => {
+        const gameContainer = document.querySelector(".game-container");
+        if (!document.fullscreenElement) {
+          if (gameContainer.requestFullscreen)
+            gameContainer.requestFullscreen();
+          else if (gameContainer.webkitRequestFullscreen)
+            gameContainer.webkitRequestFullscreen();
+          else if (gameContainer.msRequestFullscreen)
+            gameContainer.msRequestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      });
+    </script>
+
+    <script src="{% static 'game/js/game.js' %}"></script>
+  </body>
+</html>
